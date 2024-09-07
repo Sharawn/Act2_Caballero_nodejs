@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Password Manager</title>
+</head>
+<body>
+    <header>
+        <h1>Password Manager</h1>
+    </header>
+    <div class="container">
+        
+        <a href="/add" class="btn">Add New Password + </a>
+        <ul id="password-list">
+            
+        </ul>
+    </div>
+    <script>
+        
+        fetch('/api/passwords')
+            .then(response => response.json())
+            .then(passwords => {
+                const list = document.getElementById('password-list');
+                passwords.forEach((pw, index) => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `
+                        <div>
+                            <strong>${pw.name}</strong>
+                            <a href="/view/${index}">View</a>
+                        </div>
+                        <form action="/delete/${index}" method="POST">
+                            <button type="submit">Delete</button>
+                        </form>
+                    `;
+                    list.appendChild(li);
+                });
+            });
+    </script>
+</body>
+</html>

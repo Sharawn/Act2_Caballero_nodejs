@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>View Password</title>
+</head>
+<body>
+    <header>
+        <h1>View Password</h1>
+    </header>
+    <div class="container">
+        <div id="password-details">
+            
+        </div>
+        <div class="back-link">
+            <a href="/">Back to home</a>
+        </div>
+    </div>
+
+    <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const index = urlParams.get('index');
+
+        
+        fetch(`/api/passwords/${index}`)
+            .then(response => response.json())
+            .then(password => {
+                const details = document.getElementById('password-details');
+                details.innerHTML = `
+                    <p><strong>Name:</strong> ${password.name}</p>
+                    <p><strong>Password:</strong> ${password.password}</p>
+                `;
+            })
+            .catch(() => {
+                document.getElementById('password-details').innerHTML = '<p>Password not found.</p>';
+            });
+    </script>
+</body>
+</html>
